@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "components/jquery": "1.*"
+        "components/jquery": "*"
     },
     "extra": {
         "component": {
@@ -29,6 +29,5 @@
                 "exports": "jQuery.htmlClean"
             }
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
