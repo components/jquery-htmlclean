@@ -22,6 +22,9 @@
             "scripts": [
                 "jquery.htmlClean.js"
             ],
+            "files": [
+                "jquery.htmlClean.min.js"
+            ],
             "shim": {
                 "deps": [
                     "jquery"
