@@ -5,10 +5,9 @@
     "description": "HTML Clean plug-in for jQuery",
     "license": "BSD-2-Clause",
     "dependencies": {
-        "jquery": "*"
+        "components/jquery": "*"
     },
     "scripts": [
         "jquery.htmlClean.js"
-    ],
-    "main": "jquery.htmlClean.js"
+    ]
 }
