@@ -6,5 +6,5 @@ Shim repository for the [jQuery HTML Clean plugin](https://code.google.com/p/jqu
 Package Managers
 ----------------
 
-* [Bower](http://twitter.github.com/bower/) (`jquery-htmlclean`)
-* [Composer](https://packagist.org/packages/components/jquery-htmlclean)
+* [Bower](http://twitter.github.com/bower/): `jquery-htmlclean`
+* [Composer](https://packagist.org/packages/components/jquery-htmlclean): `components/jquery-htmlclean`
