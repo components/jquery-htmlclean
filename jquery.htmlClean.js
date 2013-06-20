@@ -225,10 +225,14 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
         var openingTag = this.name.concat(element.tag.rawAttributes == undefined ? "" : element.tag.rawAttributes);
 
         // don't render if not in allowedTags or in removeTags
-        var renderTag
-            = element.tag.render
-                && (options.allowedTags.length == 0 || $.inArray(element.tag.name, options.allowedTags) > -1)
-                && (options.removeTags.length == 0 || $.inArray(element.tag.name, options.removeTags) == -1);
+        if (options.allowedTags.length === 0 ||
+            $.inArray(element.tag.name, options.allowedTags) > -1) {
+            renderTag = false;
+        }
+        if (options.removeTags.length !== 0 &&
+            $.inArray(element.tag.name, options.removeTags) > -1) {
+            renderTag = false;
+        }
 
         if (!element.isRoot && renderTag) {
             // render opening tag
