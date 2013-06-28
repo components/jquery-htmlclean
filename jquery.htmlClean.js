@@ -224,6 +224,7 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
         var output = [], empty = element.attributes.length == 0, indent;
         var openingTag = this.name.concat(element.tag.rawAttributes == undefined ? "" : element.tag.rawAttributes);
 
+        var renderTag = true;
         // don't render if not in allowedTags or in removeTags
         if (options.allowedTags.length === 0 ||
             $.inArray(element.tag.name, options.allowedTags) > -1) {
