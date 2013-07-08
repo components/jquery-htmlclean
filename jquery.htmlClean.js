@@ -227,14 +227,13 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
         var renderTag = true;
         // don't render if not in allowedTags or in removeTags
         if (options.allowedTags.length === 0 ||
-            $.inArray(element.tag.name, options.allowedTags) > -1) {
+            $.inArray(element.tag.name, options.allowedTags) < 0) {
             renderTag = false;
         }
         if (options.removeTags.length !== 0 &&
             $.inArray(element.tag.name, options.removeTags) > -1) {
             renderTag = false;
         }
-
         if (!element.isRoot && renderTag) {
             // render opening tag
             output.push("<");
