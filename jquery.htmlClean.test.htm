@@ -1,0 +1,167 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>$.htmlClean</title>
+
+    <style type="text/css">
+        html,body{background-color:#fcf9f3}
+        .input,.result{font-family:Monospace}
+        .success{color:#0c0}
+        .failure{color:#c00}
+    </style>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="jquery.htmlClean.js"></script>
+    <script type="text/javascript">
+        $.htmlClean.defaults.allowedClasses = [["test", ["p"]]];
+    
+        function encode(value) {
+            return value
+                .replace(/\&/g, '&amp;')
+                .replace(/\</g, '&lt;')
+                .replace(/\>/g, '&gt;');
+
+        }
+        function clean(input, expected, options) {
+            document.write("<p class='input'>".concat(encode(input), "</p>"));
+            test_isEqual($.htmlClean(input, options), expected)
+        }
+        function trim(input, expected) {
+            document.write("<p class='input'>".concat(encode(input), "</p>"));
+            test_isEqual($.htmlClean.trim(input), expected)
+        }
+        function trimStart(input, expected) {
+            document.write("<p class='input'>".concat(encode(input), "</p>"));
+            test_isEqual($.htmlClean.trimStart(input), expected)
+        }
+        function trimEnd(input, expected) {
+            document.write("<p class='input'>".concat(encode(input), "</p>"));
+            test_isEqual($.htmlClean.trimEnd(input), expected)
+        }
+        function test_isEqual(actual, expected) {
+            document.write("<p class='result ".concat(
+                actual == expected ? "success" : "failure",
+                "'>actual&nbsp;&nbsp;: '", encode(actual), "'<br />expected: '", encode(expected), "'</p>"));
+        }
+    </script>
+</head>
+<body>
+    <p><a href="http://code.google.com/p/jquery-clean/">http://code.google.com/p/jquery-clean/</a></p>
+    
+    <h2>Clean</h2>
+    <script type="text/javascript">
+
+        clean(
+            "<p>contains&nbsp;<a>in</a>&nbsp;text</p>",
+            "<p>contains <a>in</a> text</p>");
+
+        clean(
+            "<div data-image=\"hello\">hiya</div>",
+            "<div data-image=\"hello\">hiya</div>",
+            {
+                allowedAttributes: [["data-image"]]
+            });
+
+        clean(
+            "<div id='Utter' frog='chicken'>allows new attribute</div>",
+            "<div id='Utter'>allows new attribute</div>",
+            {
+                allowedAttributes: [["id"]]
+            });
+
+        clean(
+            "<div id='Utter' frog='chicken'><span id='Sau'>allows new attribute on specific tag</span></div>",
+            "<div><span id='Sau'>allows new attribute on specific tag</span></div>",
+            {
+                allowedAttributes: [
+                    ["id", ["span"]]
+                ]
+            });
+
+        clean(
+            "<div id='Utter' class='bird' frog='chicken'>retains old attributes allowed</div>",
+            "<div id='Utter' class='bird'>retains old attributes allowed</div>",
+            {
+                allowedAttributes: [["id"]],
+                allowedClasses: [["bird"]]
+            });
+
+    	clean("<p align='center'><font>hello</font><p>","<p>hello</p>");
+    	
+        clean("<table><tbody><tr><td colspan=2>check colspan</td></tr></tbody></table>", "<table><tbody><tr><td colspan='2'>check colspan</td></tr></tbody></table>");
+
+        $.htmlClean.defaults.allowedTags = ["p", "em"];
+        clean("<p>testing <i>allowedTags</i> <strong>option</strong> <em>(white list)</em></p>", "<p>testing <em>allowedTags</em> option <em>(white list)</em></p>");
+        $.htmlClean.defaults.allowedTags = [];
+
+        $.htmlClean.defaults.removeTags = ["strong"];
+        clean("<p>testing <i>removeTags</i> <b>option</b> <em>(black list)</em></p>", "<p>testing <em>removeTags</em> option <em>(black list)</em></p>");
+        $.htmlClean.defaults.removeTags = [];
+
+        clean("<p class='test test2'>Allow test css class on a paragraph, <strong class='test'>not on a strong</strong></p>", "<p class='test'>Allow test css class on a paragraph, <strong>not on a strong</strong></p>");
+        clean("<P>Allow blank alt attr on<img alt='' src='' /></p>", "<p>Allow blank alt attr on<img alt='' /></p>");
+        clean("<P>Allow blank alt attr on<img alt= /></p>", "<p>Allow blank alt attr on<img alt='' /></p>");
+        clean("<P>Add quote to alt attr on<img alt=add-quote /></p>", "<p>Add quote to alt attr on<img alt='add-quote' /></p>");
+        clean("<P>Add alt attr to<img /></p>", "<p>Add alt attr to<img alt='' /></p>");
+        clean("<P>This is<i> inline </i><b>consecutive</b> </p>", "<p>This is <em>inline</em> <strong>consecutive</strong></p>");
+        clean("<P>This is <em>an inline </em> tag<BR>test<br></p>", "<p>This is <em>an inline</em> tag<br />test</p>");
+        clean("<P>This is <em> inline<b>  nested</b> </em> test</p>", "<p>This is <em>inline <strong>nested</strong></em> test</p>");
+        clean("<P>This is <em>inline<b>nested</b> </em>test</p>", "<p>This is <em>inline<strong>nested</strong></em> test</p>");
+        clean("<P>This is <i>inline split<b>nested </i>te</b>st</p>", "<p>This is <em>inline split<strong>nested</strong></em> test</p>");
+
+        clean("<H1 class=\"header\"><P>Nested P Test</H1>", "<h1>Nested P Test</h1>");
+        clean("<p>        Unecessary white space test          </p>", "<p>Unecessary white space test</p>");
+        clean("<p><b>Replace</b> test</p>", "<p><strong>Replace</strong> test</p>");
+        clean("<p>Safari style span <span class=\"Apple-style-span\" style=\"font-weight: bold;\">bold</span> test</p>", "<p>Safari style span <strong>bold</strong> test</p>");
+        clean("<p>Safari style span <span class=\"Apple-style-span\" style=\"font-style: italic;\">italic</span> test</p>", "<p>Safari style span <em>italic</em> test</p>");
+        clean("<p style=\"font-style: italic;\">firefox style p italic test</p>", "<p><em>firefox style p italic test</em></p>");
+        clean("<p style=\"font-style: italic;font-weight: bold;\">firefox style p italic test</p>", "<p><strong><em>firefox style p italic test</em></strong></p>");
+        
+        clean("<ul>\n<li>Un-closed List Item Test 1\n<li>Un-closed List Item Test 2\n</ul>", "<ul><li>Un-closed List Item Test 1</li><li>Un-closed List Item Test 2</li></ul>");
+
+        clean("<table>    <tr>\n <th>Un-closed Cell & row Test 1\n<td>Un-closed Cell & row Test 2\n</table>", "<table><tr><th>Un-closed Cell & row Test 1</th><td>Un-closed Cell & row Test 2</td></tr></table>");
+        clean("<table>\n<tr>\n <th>  White space in cell test 1 </th><td>White space in cell test 2 </td></tr></table>", "<table><tr><th>White space in cell test 1</th><td>White space in cell test 2</td></tr></table>");
+        clean("<table><tr><th>Next cells empty test</th><td>&nbsp;</td><td></td></tr></table>", "<table><tr><th>Next cells empty test</th><td></td><td></td></tr></table>");
+    </script>    
+
+    <h2>Trim</h2>
+    <script type="text/javascript">
+        trim("  Hello", "Hello");
+        trim("  Hello   ", "Hello");
+
+        trimStart("  Hello", "Hello");
+        trimStart("  Hello   ", "Hello   ");
+
+        trimEnd("  Hello", "  Hello");
+        trimEnd("  Hello   ", "  Hello");
+
+    </script>
+    
+    <h2>Example</h2>
+    <pre id="Input1">$.htmlClean("&lt;H1 class=\"header\"&gt;&lt;P&gt;Nested P Test&lt;/H1&gt;", { format: true })</pre>
+    <textarea id="Output1" cols=80 rows=10></textarea>
+    
+    <script type="text/javascript">
+        $("#Output1").val(
+            $.htmlClean("<H1 class=\"header\"><P>Nested P Test</H1>", { format: true })
+        );
+    </script>
+    
+    <h2>Example</h2>
+    <pre id="Input2">
+
+&lt;p class=MsoNormal style='text-indent:36.0pt'&gt;This is some &lt;b&gt;HTML&lt;/b&gt; generated
+&lt;i&gt;by &lt;o:p&gt;&lt;/o:p&gt;&lt;/i&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'&gt;MS Word&lt;/p&gt;
+
+    </pre>
+    <textarea id="Output2" cols=80 rows=10></textarea>
+    
+    <script type="text/javascript">
+        $("#Output2").val(
+            $.htmlClean($("#Input2").text(), { format: false })
+        );
+    </script>
+
+</body>
+</html>
