@@ -1,13 +1,13 @@
 /*
-HTML Clean for jQuery   
+HTML Clean for jQuery
 Anthony Johnston
-http://www.antix.co.uk    
-    
+http://www.antix.co.uk
+
 version 1.3.0
 
 $Revision: 67 $
 
-requires jQuery http://jquery.com   
+requires jQuery http://jquery.com
 
 Use and distibution http://www.opensource.org/licenses/bsd-license.php
 
@@ -199,7 +199,7 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
         format: false,
         // format indent to start on
         formatIndent: 0,
-        // tags to replace, and what to replace with, tag name or regex to match the tag and attributes 
+        // tags to replace, and what to replace with, tag name or regex to match the tag and attributes
         replace: [
             [["b", "big"], "strong"],
             [["i"], "em"]
@@ -224,12 +224,16 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
         var output = [], empty = element.attributes.length == 0, indent;
         var openingTag = this.name.concat(element.tag.rawAttributes == undefined ? "" : element.tag.rawAttributes);
 
+        var renderTag = true;
         // don't render if not in allowedTags or in removeTags
-        var renderTag
-            = element.tag.render
-                && (options.allowedTags.length == 0 || $.inArray(element.tag.name, options.allowedTags) > -1)
-                && (options.removeTags.length == 0 || $.inArray(element.tag.name, options.removeTags) == -1);
-
+        if (options.allowedTags.length === 0 ||
+            $.inArray(element.tag.name, options.allowedTags) < 0) {
+            renderTag = false;
+        }
+        if (options.removeTags.length !== 0 &&
+            $.inArray(element.tag.name, options.removeTags) > -1) {
+            renderTag = false;
+        }
         if (!element.isRoot && renderTag) {
             // render opening tag
             output.push("<");
@@ -265,7 +269,7 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
         }
 
         if (element.tag.isSelfClosing) {
-            // self closing 
+            // self closing
             if (renderTag) output.push(" />");
             empty = false;
         } else if (element.tag.isNonClosing) {
