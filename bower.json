@@ -1,6 +1,6 @@
 {
     "name": "jquery-htmlclean",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "description": "HTML Clean plug-in for jQuery",
     "license": "BSD-2-Clause",
     "dependencies": {
