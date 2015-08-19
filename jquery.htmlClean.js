@@ -556,7 +556,7 @@ Use and distibution http://www.opensource.org/licenses/bsd-license.php
             "del", ["cite", "class", "datetime"],
             "form", ["accept", "action", "class", "enctype", "method", "name"],
             "iframe", ["class", "height", "name", "sandbox", "seamless", "src", "srcdoc", "width"],
-            "input", ["accept", "accesskey", "alt", "checked", "class", "disabled", "ismap", "maxlength", "name", "size", "readonly", "src", "tabindex", "type", "usemap", "value"],
+            "input", ["accept", "accesskey", "alt", "checked", "class", "disabled", "ismap", "maxlength", "name", "size", "readonly", "src", "tabindex", "type", "usemap", "value", "multiple"],
             "img", ["alt", "class", "height", "src", "width"],
             "ins", ["cite", "class", "datetime"],
             "label", ["accesskey", "class", "for"],
