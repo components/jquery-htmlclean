@@ -1,7 +1,7 @@
 jQuery HTML Clean
 =================
 
-Shim repository for the [jQuery HTML Clean plugin](https://code.google.com/p/jquery-clean/).
+Shim repository for the [jQuery HTML Clean plugin](https://github.com/MrAntix/jquery-clean).
 
 Package Managers
 ----------------
