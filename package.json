@@ -1,5 +1,5 @@
 {
-  "name": "jquery-htmlclean",
+  "name": "components-jquery-htmlclean",
   "version": "1.4.0",
   "description": "HTML Clean plug-in for jQuery",
   "main": "jquery.htmlClean.js",
