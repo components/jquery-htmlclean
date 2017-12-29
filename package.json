@@ -1,0 +1,19 @@
+{
+  "name": "components-jquery-htmlclean",
+  "version": "1.4.0",
+  "description": "HTML Clean plug-in for jQuery",
+  "main": "jquery.htmlClean.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/components/jquery-htmlclean.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/components/jquery-htmlclean/issues"
+  },
+  "homepage": "https://github.com/components/jquery-htmlclean#readme",
+  "dependencies" : {
+    "jquery": "*"
+  }
+}
